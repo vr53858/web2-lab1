@@ -21,7 +21,7 @@ app.use(express.json()); // Middleware to parse JSON
 //     res.send('Secured Resource');
 // });
 
-app.use('/tickets', ticketRoutes);
+app.use('/', ticketRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
