@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { createTicket, getAllTickets, getTicketById, getTicketsCnt } from '../models/ticketModel';
-import { Ticket } from '../types/Ticket';
 
 export const getTicketsCount = async (req: Request, res: Response) => {
   try {

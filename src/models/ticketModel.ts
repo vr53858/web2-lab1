@@ -6,9 +6,9 @@ export const getAllTickets = async (): Promise<Ticket[]> => {
   return result.rows;
 };
 
-export const getTicketsCnt = async (): Promise<Ticket[]> => {
+export const getTicketsCnt = async (): Promise<number> => {
   const result = await query('SELECT COUNT(*) FROM tickets');
-  return result.rows;
+  return result.rows[0];
 };
 
 export const getTicketById = async (id: string): Promise<Ticket | null> => {
