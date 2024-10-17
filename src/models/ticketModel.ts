@@ -6,6 +6,11 @@ export const getAllTickets = async (): Promise<Ticket[]> => {
   return result.rows;
 };
 
+export const getTicketsCnt = async (): Promise<Ticket[]> => {
+  const result = await query('SELECT COUNT(*) FROM tickets');
+  return result.rows;
+};
+
 export const getTicketById = async (id: string): Promise<Ticket | null> => {
   const result = await query('SELECT * FROM tickets WHERE id = $1', [id]);
   return result.rows[0] || null;

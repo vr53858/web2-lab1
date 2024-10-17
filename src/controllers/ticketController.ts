@@ -1,5 +1,15 @@
-import { Request, Response } from 'express';
-import { createTicket, getAllTickets, getTicketById } from '../models/ticketModel';
+import { Request, Response, NextFunction } from 'express';
+import { createTicket, getAllTickets, getTicketById, getTicketsCnt } from '../models/ticketModel';
+import { Ticket } from '../types/Ticket';
+
+export const getTicketsCount = async (req: Request, res: Response) => {
+  try {
+    const ticketsCount = await getTicketsCnt();
+    res.status(200).json(ticketsCount);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching tickets count' });
+  }
+};
 
 export const getTickets = async (req: Request, res: Response) => {
   try {
@@ -14,7 +24,7 @@ export const getTicket = async (req: Request, res: Response) => {
   try {
     const ticket = await getTicketById(req.params.id);
     if (!ticket) {
-      return res.status(404).json({ message: 'Ticket not found' });
+      res.status(404).json({ message: 'Ticket not found' });
     }
     res.status(200).json(ticket);
   } catch (error) {
