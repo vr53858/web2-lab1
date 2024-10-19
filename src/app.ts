@@ -10,8 +10,8 @@ dotenv.config();
 const app: Application = express();
 
 const jwtCheck = auth({
-    audience: 'https://web2-lab1-87jt.onrender.com',
-    issuerBaseURL: 'https://dev-1xw25n8drb5r4asm.eu.auth0.com/',
+  issuerBaseURL: 'https://dev-1xw25n8drb5r4asm.eu.auth0.com/',
+    audience: 'https://web2-lab1-87jt.onrender.com'
   });
 
 // const jwtCheck = jwt({
