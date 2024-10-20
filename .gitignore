@@ -5,6 +5,7 @@
 *.key
 *.pem
 *.crt
+*.cert
 
 ### dotenv ###
 .env
