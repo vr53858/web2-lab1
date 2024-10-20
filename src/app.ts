@@ -8,6 +8,8 @@ import express, {
 import dotenv from "dotenv";
 import ticketRoutes from "./routes/ticketRoutes";
 import { auth } from "express-oauth2-jwt-bearer";
+import https from "https";
+import fs from "fs";
 
 dotenv.config();
 
@@ -17,7 +19,6 @@ const jwtCheck = auth({
   issuerBaseURL: process.env.AUTH0_DOMAIN,
   audience: process.env.RESOURCE_SERVER,
 });
-
 
 app.use(jwtCheck);
 
@@ -41,7 +42,29 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const externalUrl = process.env.RENDER_EXTERNAL_URL;
+const port =
+  externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 8000;
+// app.listen(port, () => console.log(`Server running on port ${port}`));
+
+if (externalUrl) {
+  const hostname = "0.0.0.0"; //ne 127.0.0.1
+  app.listen(port, hostname, () => {
+    console.log(`Server locally running at http://${hostname}:${port}/ and from
+  outside on ${externalUrl}`);
+  });
+} else {
+  https
+    .createServer(
+      {
+        key: fs.readFileSync("server.key"),
+        cert: fs.readFileSync("server.cert"),
+      },
+      app
+    )
+    .listen(port, function () {
+      console.log(`Server running at https://localhost:${port}/`);
+    });
+}
 
 export default app;
