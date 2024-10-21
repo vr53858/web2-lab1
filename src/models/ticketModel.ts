@@ -23,3 +23,12 @@ export const createTicket = async (ticket: Ticket): Promise<Ticket> => {
   );
   return result.rows[0];
 };
+
+export const checkTicketVatinLimit = async (vatin: number): Promise<boolean> => {
+  const result = await query(
+    'SELECT COUNT(*) FROM tickets WHERE vatin = $1',
+    [vatin]
+  );
+  return Number(result.rows[0].count) < 3;
+};
+
